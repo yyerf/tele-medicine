@@ -5,7 +5,6 @@ import {
   VideoCameraIcon,
   ClipboardDocumentListIcon,
   DocumentTextIcon,
-  TruckIcon,
   BellIcon,
   UserCircleIcon,
   Cog6ToothIcon,
@@ -29,10 +28,8 @@ const Layout = ({ children }: LayoutProps) => {
   const patientNavigation = [
     { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
     { name: 'Consultation', href: '/consultation', icon: VideoCameraIcon },
-    { name: 'Advanced Consultation', href: '/advanced-consultation', icon: VideoCameraIcon },
     { name: 'Prescriptions', href: '/prescriptions', icon: ClipboardDocumentListIcon },
     { name: 'Medical Records', href: '/medical-records', icon: DocumentTextIcon },
-    { name: 'Medicine Delivery', href: '/delivery', icon: TruckIcon },
   ];
 
   const doctorNavigation = [

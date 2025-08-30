@@ -1,20 +1,22 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import {
   CalendarDaysIcon,
   ClipboardDocumentListIcon,
-  TruckIcon,
   ChartBarIcon,
   VideoCameraIcon,
   UserGroupIcon,
-  HeartIcon,
-  BeakerIcon
+  BeakerIcon,
+  DocumentTextIcon,
+  PlusIcon
 } from '@heroicons/react/24/outline';
 import { useAuth } from '../contexts/AuthContext';
 import { generateDummyData, formatDate, formatCurrency } from '../utils';
 
 const DashboardPage = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [dummyData, setDummyData] = useState<any>(null);
 
   useEffect(() => {
@@ -65,40 +67,6 @@ const DashboardPage = () => {
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-600">Active Prescriptions</p>
               <p className="text-2xl font-bold text-gray-900">{dummyData.prescriptions.length}</p>
-            </div>
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="card"
-        >
-          <div className="flex items-center">
-            <div className="p-2 bg-yellow-100 rounded-lg">
-              <TruckIcon className="h-6 w-6 text-yellow-600" />
-            </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Medicine Orders</p>
-              <p className="text-2xl font-bold text-gray-900">{dummyData.medicineOrders.length}</p>
-            </div>
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="card"
-        >
-          <div className="flex items-center">
-            <div className="p-2 bg-purple-100 rounded-lg">
-              <HeartIcon className="h-6 w-6 text-purple-600" />
-            </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Health Score</p>
-              <p className="text-2xl font-bold text-gray-900">92%</p>
             </div>
           </div>
         </motion.div>
@@ -202,53 +170,6 @@ const DashboardPage = () => {
           </div>
         </motion.div>
       </div>
-
-      {/* Medicine Delivery Status */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
-        className="card mb-8"
-      >
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-semibold text-gray-900">Medicine Delivery Status</h2>
-          <TruckIcon className="h-5 w-5 text-gray-400" />
-        </div>
-        
-        <div className="space-y-4">
-          {dummyData.medicineOrders.map((order: any) => (
-            <div key={order.id} className="flex items-center p-4 bg-gray-50 rounded-lg">
-              <div className="flex-shrink-0">
-                <div className="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center">
-                  <TruckIcon className="h-5 w-5 text-yellow-600" />
-                </div>
-              </div>
-              <div className="ml-4 flex-1">
-                <h3 className="text-sm font-medium text-gray-900">
-                  Order #{order.trackingNumber}
-                </h3>
-                <p className="text-sm text-gray-500">
-                  {order.medications.length} medication(s) - {formatCurrency(order.totalAmount + order.deliveryFee)}
-                </p>
-                <p className="text-xs text-gray-400">
-                  ETA: {formatDate(order.estimatedDeliveryTime)}
-                </p>
-              </div>
-              <div className="ml-4">
-                <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                  order.status === 'out-for-delivery' 
-                    ? 'bg-yellow-100 text-yellow-800'
-                    : order.status === 'delivered'
-                    ? 'bg-green-100 text-green-800'
-                    : 'bg-blue-100 text-blue-800'
-                }`}>
-                  {order.status.replace('-', ' ')}
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </motion.div>
     </>
   );
 
@@ -396,22 +317,62 @@ const DashboardPage = () => {
       >
         <h2 className="text-xl font-semibold text-gray-900 mb-6">Quick Actions</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <button className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-            <VideoCameraIcon className="h-8 w-8 text-primary-600 mx-auto mb-2" />
-            <p className="text-sm font-medium text-gray-900">Start Consultation</p>
-          </button>
-          <button className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-            <ClipboardDocumentListIcon className="h-8 w-8 text-medical-600 mx-auto mb-2" />
-            <p className="text-sm font-medium text-gray-900">View Records</p>
-          </button>
-          <button className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-            <TruckIcon className="h-8 w-8 text-yellow-600 mx-auto mb-2" />
-            <p className="text-sm font-medium text-gray-900">Order Medicine</p>
-          </button>
-          <button className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-            <CalendarDaysIcon className="h-8 w-8 text-purple-600 mx-auto mb-2" />
-            <p className="text-sm font-medium text-gray-900">Schedule Appointment</p>
-          </button>
+          {isDoctor ? (
+            <>
+              <button 
+                onClick={() => navigate('/consultation')}
+                className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+              >
+                <VideoCameraIcon className="h-8 w-8 text-primary-600 mx-auto mb-2" />
+                <p className="text-sm font-medium text-gray-900">Start Consultation</p>
+              </button>
+              <button 
+                onClick={() => navigate('/advanced-consultation')}
+                className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+              >
+                <BeakerIcon className="h-8 w-8 text-green-600 mx-auto mb-2" />
+                <p className="text-sm font-medium text-gray-900">AI Diagnosis</p>
+              </button>
+              <button 
+                onClick={() => navigate('/prescriptions')}
+                className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+              >
+                <PlusIcon className="h-8 w-8 text-blue-600 mx-auto mb-2" />
+                <p className="text-sm font-medium text-gray-900">Create Prescription</p>
+              </button>
+              <button 
+                onClick={() => navigate('/medical-records')}
+                className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+              >
+                <ClipboardDocumentListIcon className="h-8 w-8 text-medical-600 mx-auto mb-2" />
+                <p className="text-sm font-medium text-gray-900">Patient Records</p>
+              </button>
+            </>
+          ) : (
+            <>
+              <button 
+                onClick={() => navigate('/consultation')}
+                className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+              >
+                <VideoCameraIcon className="h-8 w-8 text-primary-600 mx-auto mb-2" />
+                <p className="text-sm font-medium text-gray-900">Start Consultation</p>
+              </button>
+              <button 
+                onClick={() => navigate('/medical-records')}
+                className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+              >
+                <DocumentTextIcon className="h-8 w-8 text-medical-600 mx-auto mb-2" />
+                <p className="text-sm font-medium text-gray-900">My Records</p>
+              </button>
+              <button 
+                onClick={() => navigate('/prescriptions')}
+                className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+              >
+                <ClipboardDocumentListIcon className="h-8 w-8 text-blue-600 mx-auto mb-2" />
+                <p className="text-sm font-medium text-gray-900">My Prescriptions</p>
+              </button>
+            </>
+          )}
         </div>
       </motion.div>
     </div>

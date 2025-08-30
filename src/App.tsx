@@ -10,7 +10,6 @@ import DashboardPage from './pages/DashboardPage';
 import ConsultationPage from './pages/ConsultationPage';
 import AdvancedConsultationPage from './pages/AdvancedConsultationPage';
 import PrescriptionsPage from './pages/PrescriptionsPage';
-import DeliveryPage from './pages/DeliveryPage';
 import MedicalRecordsPage from './pages/MedicalRecordsPage';
 
 // Protected Route Component
@@ -41,6 +40,29 @@ const PublicRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   }
   
   return isAuthenticated ? <Navigate to="/dashboard" replace /> : <>{children}</>;
+};
+
+// Doctor Only Route Component (only doctors can access)
+const DoctorOnlyRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { isAuthenticated, user, loading } = useAuth();
+  
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+      </div>
+    );
+  }
+  
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+  
+  if (user?.role !== 'doctor') {
+    return <Navigate to="/dashboard" replace />;
+  }
+  
+  return <>{children}</>;
 };
 
 const AppRoutes: React.FC = () => {
@@ -90,11 +112,11 @@ const AppRoutes: React.FC = () => {
         <Route 
           path="/advanced-consultation" 
           element={
-            <ProtectedRoute>
+            <DoctorOnlyRoute>
               <Layout>
                 <AdvancedConsultationPage />
               </Layout>
-            </ProtectedRoute>
+            </DoctorOnlyRoute>
           } 
         />
         <Route 
@@ -103,16 +125,6 @@ const AppRoutes: React.FC = () => {
             <ProtectedRoute>
               <Layout>
                 <PrescriptionsPage />
-              </Layout>
-            </ProtectedRoute>
-          } 
-        />
-        <Route 
-          path="/delivery" 
-          element={
-            <ProtectedRoute>
-              <Layout>
-                <DeliveryPage />
               </Layout>
             </ProtectedRoute>
           } 

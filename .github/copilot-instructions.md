@@ -6,10 +6,10 @@ This is a modern telemedicine application built for the Philippines market with 
 
 ## Core Features
 - **AI Image Enhancement**: Real-time image brightening and sharpening for medical consultations
-- **Computer Vision Detection**: AI-powered analysis of skin and wound conditions
+- **Computer Vision Detection**: AI-powered analysis of skin and wound conditions (doctor-assisted diagnosis only)
 - **E-Prescription System**: Digital prescription management for doctors
-- **Medicine Delivery**: Grab-like delivery service for prescribed medications
 - **Centralized Medical Records**: Cross-hospital patient record synchronization
+- **Role-Based Access**: Advanced AI features restricted to licensed medical professionals
 
 ## Tech Stack
 - React 18 with TypeScript
@@ -29,3 +29,5 @@ This is a modern telemedicine application built for the Philippines market with 
 - Follow Philippine medical regulations and standards
 - Use professional medical terminology
 - Implement proper error handling and loading states
+- **Important**: AI diagnosis features are for medical professionals only - never allow patients to self-diagnose
+- Ensure role-based access controls for sensitive medical features

@@ -139,44 +139,6 @@ export const generateDummyData = () => {
         status: 'active'
       }
     ],
-    medicineOrders: [
-      {
-        id: 'o1',
-        prescriptionId: 'p1',
-        patientId: '2',
-        medications: [
-          {
-            id: 'm1',
-            name: 'Amoxicillin',
-            genericName: 'Amoxicillin trihydrate',
-            dosage: '500mg',
-            frequency: '3 times daily',
-            duration: '7 days',
-            instructions: 'Take with food',
-            quantity: 21,
-            orderedQuantity: 21,
-            totalPrice: 15.50,
-            isAvailable: true,
-            price: 15.50
-          }
-        ],
-        deliveryAddress: {
-          street: '456 Rizal Ave.',
-          barangay: 'San Antonio',
-          city: 'Quezon City',
-          province: 'Metro Manila',
-          zipCode: '1105',
-          country: 'Philippines'
-        },
-        status: 'out-for-delivery',
-        totalAmount: 15.50,
-        deliveryFee: 50.00,
-        estimatedDeliveryTime: '2025-08-28T16:00:00Z',
-        trackingNumber: 'MC2025082800123',
-        courier: 'MedExpress',
-        orderedAt: '2025-08-27T09:30:00Z'
-      }
-    ],
     medicalRecords: [
       {
         id: 'r1',

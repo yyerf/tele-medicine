@@ -4,7 +4,6 @@ import {
   CameraIcon, 
   EyeIcon, 
   ClipboardDocumentListIcon,
-  TruckIcon,
   ServerIcon 
 } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
@@ -25,11 +24,6 @@ const LandingPage = () => {
       name: 'E-Prescription System',
       description: 'Digital prescription management with secure doctor-patient communication',
       icon: ClipboardDocumentListIcon,
-    },
-    {
-      name: 'Medicine Delivery',
-      description: 'Grab-like delivery service for prescribed medications straight to your door',
-      icon: TruckIcon,
     },
     {
       name: 'Centralized Medical Records',
@@ -87,7 +81,7 @@ const LandingPage = () => {
             </h1>
             <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
               Experience the future of healthcare with AI-powered consultations, smart image enhancement, 
-              and seamless medicine delivery across the Philippines.
+              and centralized medical records across the Philippines.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/register" className="bg-white text-primary-600 hover:bg-gray-50 px-8 py-3 rounded-lg font-semibold text-lg transition-colors">

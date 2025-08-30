@@ -89,27 +89,6 @@ export interface Medication {
   price?: number;
 }
 
-export interface MedicineOrder {
-  id: string;
-  prescriptionId: string;
-  patientId: string;
-  medications: OrderMedication[];
-  deliveryAddress: Address;
-  status: 'pending' | 'confirmed' | 'preparing' | 'out-for-delivery' | 'delivered' | 'cancelled';
-  totalAmount: number;
-  deliveryFee: number;
-  estimatedDeliveryTime: string;
-  trackingNumber?: string;
-  courier?: string;
-  notes?: string;
-  orderedAt: string;
-}
-
-export interface OrderMedication extends Medication {
-  orderedQuantity: number;
-  totalPrice: number;
-}
-
 export interface MedicalRecord {
   id: string;
   patientId: string;
@@ -161,7 +140,7 @@ export interface Hospital {
 export interface Notification {
   id: string;
   userId: string;
-  type: 'appointment' | 'prescription' | 'delivery' | 'reminder' | 'system';
+  type: 'appointment' | 'prescription' | 'reminder' | 'system';
   title: string;
   message: string;
   isRead: boolean;
